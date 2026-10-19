@@ -17,14 +17,13 @@ dialog{border:1px solid #ffffff38;border-radius:14px;color:var(--text);backgroun
 @media(max-width:900px){.app{width:calc(100% - 42px)}.intro{padding:65px 0}.world-bottomline{flex-direction:column}.below-grid{grid-template-columns:1fr}.canvas-container{height:560px}.dialog-layout{grid-template-columns:1fr}.dialog-art{height:150px}.dialog-art>span{font-size:68px}.dialog-text{padding:28px 25px 30px}.dialog-text h2{font-size:30px}}
 @media(max-width:570px){.app{width:calc(100% - 28px)}.masthead{height:80px}.brand strong{font-size:10px}.brand small{font-size:8px}.header-actions{gap:6px}.icon-button{font-size:15px;padding:8px 11px}.icon-button span{display:none}.intro{padding:53px 3px}.intro h1{font-size:clamp(43px,12vw,65px)}.intro p{font-size:14px}.intro-actions{flex-wrap:wrap}.world-topline,.world-bottomline{padding:14px}.world-topline #world-clock{display:none}.canvas-container{height:500px}.map-message{font-size:11px;left:14px;top:15px}.top-sticker{display:none}.bottom-sticker{font-size:8px;left:12px;bottom:13px;max-width:65%;line-height:1.6}.canvas-controls{right:10px}.location-nav button{padding:9px 10px;font-size:10px}.panel{padding:21px}.panel h2{font-size:29px}.closing{padding:65px 10px}.closing h2{font-size:31px}footer{flex-direction:column;gap:9px}.story-dialog{max-height:94vh}.dialog-art{height:105px}.dialog-text{padding:22px 20px 25px}.dialog-text h2{font-size:27px}.dialog-description{font-size:13px}.character-box{margin:12px 0;padding:10px}.choice-button{padding:12px;font-size:12px}.guide-dialog,.reset-dialog{padding:26px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
-// Style package marker
 
-
-/* Secret Seventh Place */
+/* Secret Seventh Place: unlocked only after all six islands are discovered. */
 .seventh[hidden]{display:none!important}.seventh{position:relative;overflow:hidden;margin:22px 0 30px;border-color:#dec9a75c;background:radial-gradient(ellipse at 90% 10%,#e3bd9540,transparent 45%),linear-gradient(130deg,#202a43,#171d34)}
 .seventh-heading{display:flex;align-items:center;gap:22px;justify-content:space-between}.seventh-heading h2{font-family:'Fraunces',Georgia,serif;font-size:clamp(33px,4vw,52px);font-weight:normal;letter-spacing:-.035em;margin:12px 0}.seventh-heading p{line-height:1.8;color:var(--sub);font-size:14px;max-width:740px;margin:0}.seventh-sigil{font-size:79px;color:var(--gold);opacity:.75;animation:float 8s ease-in-out infinite}.seventh-question{font-size:17px;margin:26px 0 19px;font-family:Georgia,serif;line-height:1.7}.seventh-question em{color:#ffe0b6}
 .seventh-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.seventh-option{background:#0e182c9a;border:1px solid #f5dfb34a;padding:16px 17px;border-radius:7px;display:flex;justify-content:space-between;align-items:center;gap:13px;color:var(--text);text-align:left}.seventh-option:hover{border-color:#ffe5ab;background:#344261}.seventh-option span{font-size:13px;line-height:1.55}.seventh-option small{color:var(--gold);font-size:11px;white-space:nowrap}.seventh-outcome{margin-top:20px;padding:19px 22px;background:#e2c79c16;border-left:2px solid var(--gold)}.seventh-outcome strong{letter-spacing:.11em;font-size:11px;color:var(--gold)}.seventh-outcome p{line-height:1.8;font-size:14px;color:var(--text)}.seventh-note{font-size:11px;line-height:1.7;color:var(--muted);margin:20px 0 0}
 @media(max-width:650px){.seventh-options{grid-template-columns:1fr}.seventh-heading{align-items:flex-start}.seventh-sigil{font-size:45px}.seventh-option{padding:15px}.seventh-question{font-size:15px}}
+
 </style>
   
 </head>
@@ -71,13 +70,15 @@ dialog{border:1px solid #ffffff38;border-radius:14px;color:var(--text);backgroun
         <div class="panel log-panel"><div class="panel-heading"><div><div class="eyebrow">NOTES FROM THE EDGE</div><h2>The travel journal</h2></div><span class="panel-star" aria-hidden="true">✎</span></div><div id="journal" class="journal" aria-live="polite"></div><div class="journal-bottom"><button id="export-btn" class="text-action" type="button">↓ Save a world postcard</button><button id="reset-btn" class="text-action danger" type="button">Begin another sky ↺</button></div>
         </div>
       </section>
-      <section class="seventh panel" id="seventh-place" aria-labelledby="seventh-title" hidden>
-        <div class="eyebrow">SECRET LOCATION · UNLOCKED BY ALL SIX RELICS</div>
-        <div class="seventh-heading"><div><h2 id="seventh-title">The Seventh Place</h2><p>Between all six islands, a tiny uncharted observatory has appeared. It doesn't belong to the map. It belongs to the choices that brought you here.</p></div><span class="seventh-sigil" aria-hidden="true">✺</span></div>
-        <p class="seventh-question">A voice from the observatory asks: <em>“What should the sky remember next?”</em></p>
-        <div id="seventh-choices" class="seventh-options" aria-label="Choose what the seventh place remembers"></div>
+      <section id="seventh-place" class="seventh panel" hidden aria-labelledby="seventh-title">
+        <div class="seventh-heading">
+          <div><div class="eyebrow">✧ THE SKY KEPT A LITTLE ROOM FOR YOU</div><h2 id="seventh-title">The Seventh Place</h2><p>It wasn't missing. It was waiting for your six discoveries to meet.</p></div>
+          <span class="seventh-sigil" aria-hidden="true">✺</span>
+        </div>
+        <p class="seventh-question">What would you like to <em>leave in this unfinished world?</em></p>
+        <div id="seventh-choices" class="seventh-options" aria-label="Choose a gift for the Seventh Place"></div>
         <div id="seventh-outcome" class="seventh-outcome" role="status" aria-live="polite" hidden></div>
-        <p class="seventh-note">You can choose again. This place remembers your most recent promise, while your private journal keeps the history. Traveler codes share the six relics and qualities, but not this secret promise.</p>
+        <p class="seventh-note">You can return and make a different promise whenever you like. The Seventh Place remembers only your most recent one; your earlier promises stay in the journal.</p>
       </section>
       <section class="exchange panel" id="exchange" aria-labelledby="exchange-title">
         <div class="exchange-heading">
@@ -92,7 +93,7 @@ dialog{border:1px solid #ffffff38;border-radius:14px;color:var(--text);backgroun
         </div>
         <p id="code-status" class="exchange-status" role="status" aria-live="polite">Traveler codes contain no journal entries or personally identifying details.</p>
       </section>
-      <section class="closing"><span class="closing-icon">❋</span><h2>There is no map for everything.</h2><p>Every visitor gets a slightly different sky. Your choices are stored locally; they aren't uploaded anywhere. Want to leave a lasting, public trace? You can contribute a story or suggestion in the project's GitHub Issues once the repository is available.</p><a id="repo-link" href="./guestbook.html">Visit the Constellation Wall ↗</a></section>
+      <section class="closing"><span class="closing-icon">❋</span><h2>There is no map for everything.</h2><p>Every visitor gets a slightly different sky. Your choices are stored locally; they aren't uploaded anywhere. Want to leave a lasting, public trace? Visit the Constellation Wall and leave an optional public sky mark through GitHub. Your personal journey remains private.</p><a id="repo-link" href="./guestbook.html">Visit the Constellation Wall ↗</a></section>
     </main>
     <footer><span>✳ EXPERIMENT 02 / PERSONAL WORLDS</span><span>CREATED OCTOBER 19, 2026 · AGENT-01 (GPT-6)</span><span>MADE WITH CURIOSITY, NOT CERTAINTY</span></footer>
   </div>
@@ -100,7 +101,7 @@ dialog{border:1px solid #ffffff38;border-radius:14px;color:var(--text);backgroun
   <dialog id="story-dialog" class="story-dialog" aria-labelledby="dialog-title">
     <div class="dialog-layout"><div id="dialog-art" class="dialog-art" aria-hidden="true"><span id="dialog-glyph">✷</span><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div></div><div class="dialog-text"><button id="dialog-close" class="close-btn" aria-label="Close dialog">×</button><div id="dialog-kicker" class="eyebrow">ISLAND 01 OF 06</div><h2 id="dialog-title"></h2><p id="dialog-description" class="dialog-description"></p><div id="dialog-character" class="character-box"></div><div id="dialog-choices" class="choice-list"></div><div id="dialog-result" class="dialog-result" role="status" aria-live="polite" hidden></div><button id="dialog-continue" class="return-btn" type="button" hidden>Return to the sky ↗</button></div></div>
   </dialog>
-  <dialog id="guide-dialog" class="guide-dialog" aria-labelledby="guide-title"><button class="close-btn" id="guide-close" aria-label="Close guide">×</button><div class="eyebrow">A FIELD GUIDE FOR THE CURIOUS</div><h2 id="guide-title">How to get wonderfully lost</h2><p>Click an island or choose one from the buttons under the map. Each island offers three actions, and your decisions change four qualities of the sky: Wonder, Care, Curiosity, and Mischief.</p><p>Collect six small relics by visiting all six islands, then discover the secret Seventh Place. You can return whenever you like: the keepers react to your growing constellation. The <strong>Turn the sky</strong> button advances the atmospheric cycle, not a deadline.</p><p>Drag or use the arrow keys to pan the map. Scroll or use + and − to zoom. Press Escape to close a story. Your progress is saved on this device in your browser. Clearing browser data erases it; the postcard download preserves a summary.</p><button id="guide-start" class="primary-link" type="button">I know enough. Let's wander ↗</button></dialog>
+  <dialog id="guide-dialog" class="guide-dialog" aria-labelledby="guide-title"><button class="close-btn" id="guide-close" aria-label="Close guide">×</button><div class="eyebrow">A FIELD GUIDE FOR THE CURIOUS</div><h2 id="guide-title">How to get wonderfully lost</h2><p>Click an island or choose one from the buttons under the map. Each island offers three actions, and your decisions change four qualities of the sky: Wonder, Care, Curiosity, and Mischief.</p><p>Collect six small relics by visiting all six islands. You can return whenever you like: the keepers react to your growing constellation. The <strong>Turn the sky</strong> button advances the atmospheric cycle, not a deadline.</p><p>Drag or use the arrow keys to pan the map. Scroll or use + and − to zoom. Press Escape to close a story. Your progress is saved on this device in your browser. Clearing browser data erases it; the postcard download preserves a summary.</p><button id="guide-start" class="primary-link" type="button">I know enough. Let's wander ↗</button></dialog>
   <dialog id="reset-dialog" class="reset-dialog" aria-labelledby="reset-title"><div class="eyebrow">A NEW BEGINNING</div><h2 id="reset-title">Start with an empty sky?</h2><p>This clears your local discoveries and journal. Your downloaded postcards will stay yours.</p><div class="reset-actions"><button id="reset-cancel" class="return-btn">Keep this sky</button><button id="reset-confirm" class="primary-link">Begin again ↻</button></div></dialog>
   <dialog id="import-dialog" class="reset-dialog" aria-labelledby="import-title"><div class="eyebrow">A DIFFERENT CONSTELLATION</div><h2 id="import-title">Visit a shared sky?</h2><p>This replaces the discoveries and journal currently saved in this browser. You can copy your current sky code or save a postcard first.</p><div class="reset-actions"><button id="import-cancel" class="return-btn" type="button">Keep my own sky</button><button id="import-confirm" class="primary-link" type="button">Visit this sky ↗</button></div></dialog>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
@@ -226,13 +227,15 @@ dialog{border:1px solid #ffffff38;border-radius:14px;color:var(--text);backgroun
     // Ribbons for visited islands.
     if(discovered){ctx.fillStyle='#ffeac1';ctx.beginPath();ctx.arc(w*.72,-h*.65,6*zoom,0,TAU);ctx.fill();ctx.fillStyle='#3a4052';ctx.font=`${Math.max(8,9*zoom)}px sans-serif`;ctx.fillText('✓',w*.72,-h*.65+.5);}
     const tagY=h+19*zoom;const fontSize=Math.max(11,12*zoom);ctx.font=`600 ${fontSize}px DM Sans,system-ui,sans-serif`;const width=ctx.measureText(island.short).width+25;ctx.fillStyle=active?'#fff2d9':'#121a2bdc';roundedRect(-width/2,tagY-12,width,25,13);ctx.fill();ctx.fillStyle=active?'#222b3c':'#f4eadf';ctx.textBaseline='middle';ctx.fillText(island.short,0,tagY+.5);ctx.restore();}
-  function drawSeventh(t){if(state.visited.length!==6)return;
-    const p=worldToScreen(0,-53), glow=29*zoom+Math.sin(t*.001)*4;
+  function drawSeventh(t){
+    if(state.visited.length!==6)return;
+    const p=worldToScreen(0,-53);
+    const glow=29*zoom+Math.sin(t*.001)*4;
     const theme=SEVENTH_CHOICES.find(choice=>choice.key===state.horizon);
     ctx.save();ctx.shadowBlur=theme?22:14;ctx.shadowColor=theme?TRAITS[theme.trait].color:'#ffe7bb';ctx.strokeStyle=theme?TRAITS[theme.trait].color:'#ffe7bb';ctx.lineWidth=1.5;
     ctx.beginPath();ctx.arc(p.x,p.y,glow,0,TAU);ctx.stroke();ctx.setLineDash([3,5]);ctx.beginPath();ctx.arc(p.x,p.y,glow+9*zoom,0,TAU);ctx.stroke();ctx.setLineDash([]);
-    ctx.fillStyle='#fff5d8';ctx.font=Math.max(22,32*zoom)+'px Georgia,serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(theme?theme.symbol:'✺',p.x,p.y);
-    ctx.shadowBlur=0;ctx.font='600 '+Math.max(10,11*zoom)+'px DM Sans,system-ui,sans-serif';ctx.fillText('SEVENTH PLACE',p.x,p.y+glow+30*zoom);ctx.restore();
+    ctx.fillStyle='#fff5d8';ctx.font=`${Math.max(22,32*zoom)}px Georgia,serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(theme?theme.symbol:'✺',p.x,p.y);
+    ctx.shadowBlur=0;ctx.font=`600 ${Math.max(10,11*zoom)}px DM Sans,system-ui,sans-serif`;ctx.fillText('SEVENTH PLACE',p.x,p.y+glow+30*zoom);ctx.restore();
   }
   function render(t=0){if(!ctx)return;ctx.setTransform(deviceScale,0,0,deviceScale,0,0);drawBackdrop(t);ISLANDS.forEach((i,index)=>drawIsland(i,index,t));drawSeventh(t);}
   function animate(t){frame=t;render(t);raf=requestAnimationFrame(animate);}
@@ -254,7 +257,8 @@ dialog{border:1px solid #ffffff38;border-radius:14px;color:var(--text);backgroun
     const inventory=$('#inventory-list');inventory.replaceChildren();$('#item-count').textContent=state.visited.length+' / 6';if(!state.visited.length)inventory.append(make('span','relic empty','The sky is empty-handed, for now.'));else for(const id of state.visited){const i=ISLANDS.find(x=>x.id===id);if(i){const relic=make('span','relic',i.relicIcon+' '+i.relic);relic.title='Found at '+i.name;inventory.append(relic);}}
     const journal=$('#journal');journal.replaceChildren();for(const e of [...state.journal].reverse()){const entry=make('div','journal-entry');entry.append(make('time','',e.place.toUpperCase()),make('p','',e.text));journal.append(entry);}
     $('#seventh-place').hidden=state.visited.length!==6;
-    const chosen=SEVENTH_CHOICES.find(option=>option.key===state.horizon),outcome=$('#seventh-outcome');outcome.hidden=!chosen;
+    const chosen=SEVENTH_CHOICES.find(option=>option.key===state.horizon);
+    const outcome=$('#seventh-outcome');outcome.hidden=!chosen;
     if(chosen){outcome.replaceChildren(make('strong','',chosen.symbol+' THE SKY REMEMBERS'),make('p','',chosen.outcome));}
     $('#map-message').textContent=state.visited.length===6?(chosen?'Your seventh star is shining. Tap it to revisit your promise.':'A seventh place has appeared between the islands.'):state.steps>=3?'Your choices are drawing a constellation.':'The islands are waiting for you.';
   }
