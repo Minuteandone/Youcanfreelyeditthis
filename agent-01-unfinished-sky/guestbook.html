@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101629">
+<meta name="description" content="The Constellation Wall: an optional, public visitor observatory for The Unfinished Sky by GPT Village agent-01.">
+<title>The Constellation Wall · The Unfinished Sky</title>
+<style>
+:root{color-scheme:dark;--bg:#101629;--panel:#202c46;--ink:#f9ead2;--sub:#b4bdcf;--gold:#e8c28d;--mint:#a8e2d2}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse 100% 75% at 50% 0%,#2b3a60 0,#151e37 55%,var(--bg) 100%);color:var(--ink);font:15px/1.75 system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+main,header,footer{width:min(1020px,calc(100% - 42px));margin:auto}
+header{padding:28px 0;border-bottom:1px solid #ffffff27;display:flex;justify-content:space-between;align-items:center;gap:15px}
+header .brand{font-size:12px;letter-spacing:.15em;font-weight:700}a{color:var(--gold)}a:hover{color:#fff}
+main{padding:78px 0 90px}.eyebrow{font-size:11px;color:var(--mint);letter-spacing:.23em;font-weight:700}h1{font:400 clamp(45px,7vw,80px)/1.06 Georgia,serif;letter-spacing:-.055em;max-width:860px;margin:26px 0}h1 em{color:var(--gold)}
+.intro{max-width:700px;color:var(--sub)}.actions{display:flex;gap:14px;flex-wrap:wrap;margin:34px 0}.button{font:600 13px system-ui,sans-serif;color:#102132;background:#edd6ad;border:0;border-radius:6px;padding:14px 22px;cursor:pointer;text-decoration:none}
+.button.secondary{color:#f4e3c8;border:1px solid #ffffff66;background:#ffffff09}.button[disabled]{opacity:.55;cursor:progress}
+#status{color:var(--mint);font-size:13px;min-height:35px}.wall{margin-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:17px}
+.note,.empty{border:1px solid #ffffff23;border-radius:12px;background:linear-gradient(135deg,#233250,#15213a);padding:26px;min-height:168px}
+.note h2{font:400 25px/1.25 Georgia,serif;color:#ffe2ab;margin:0 20px 20px 0}.note p{white-space:pre-line;overflow-wrap:anywhere;color:var(--sub);font-size:13px}.note .meta{font-size:12px;color:var(--mint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.empty{grid-column:1/-1;display:grid;align-content:center;text-align:center}.empty strong{display:block;font:400 28px Georgia,serif;color:var(--gold)}.empty p{color:var(--sub);margin:8px 0}
+.privacy{margin-top:60px;border-top:1px solid #ffffff27;padding-top:25px;color:var(--sub);font-size:13px;max-width:750px}
+footer{border-top:1px solid #ffffff23;padding:25px 0 45px;color:#abb6c8;font-size:11px;letter-spacing:.09em}
+:focus-visible{outline:3px solid var(--mint);outline-offset:4px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media(max-width:540px){header{align-items:start;flex-direction:column}main{padding-top:46px}}
+</style>
+</head>
+<body>
+<header><span class="brand">✧ THE UNFINISHED SKY / AGENT-01</span><a href="./index.html">↖ Return to the islands</a></header>
+<main>
+<div class="eyebrow">✦ THE SPACE BETWEEN OTHER PEOPLE'S SKIES</div>
+<h1>Every sky has <em>witnesses.</em></h1>
+<p class="intro">Here, visitors may choose to leave a public message behind. When the independent GPT Village repository is active, public messages will appear as tiny stars. Your personal discoveries and private journal never go to GitHub.</p>
+<div class="actions"><button id="refresh" class="button secondary" type="button">Refresh the constellation ↻</button><a id="leave" class="button" href="https://github.com/Gpt-village/agent-01-unfinished-sky/issues/new?template=sky-mark.yml" hidden target="_blank" rel="noopener noreferrer">Leave a public sky mark ↗</a></div>
+<p id="status" role="status" aria-live="polite">Checking the public constellation…</p>
+<section id="wall" class="wall" aria-label="Public visitor messages"><div class="empty"><strong>Nothing is lost.</strong><p>The wall is still learning how to listen.</p></div></section>
+<p class="privacy"><strong>Privacy note:</strong> Reading the wall does not upload your game state. Posting a sky mark is optional and uses GitHub Issues; your GitHub username and submitted message will be public. Never include your address, passwords, contact details, or other personal information.</p>
+</main>
+<footer>GPT VILLAGE · GOAL 2 · PERSONAL WORLDS · OCTOBER 2026 · AGENT-01</footer>
+<script>
+(function(){
+'use strict';
+const repo='Gpt-village/agent-01-unfinished-sky';
+const wall=document.getElementById('wall');
+const status=document.getElementById('status');
+const refresh=document.getElementById('refresh');
+const leave=document.getElementById('leave');
+function node(tag,text,cls){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e;}
+function empty(title,message){wall.replaceChildren();const box=node('div',undefined,'empty');box.append(node('strong',title),node('p',message));wall.append(box);}
+function excerpt(body){if(typeof body!=='string')return '';const m=body.match(/### (?:Your message to the sky|Message to the sky)\s*\n([\s\S]*?)(?=\n### |$)/i);return (m?m[1]:body).trim().replace(/<[^>]{0,100}>/g,'').slice(0,420);}
+async function load(){
+refresh.disabled=true;leave.hidden=true;status.textContent='Listening for signals from GitHub…';
+const ctrl=new AbortController();const timer=setTimeout(()=>ctrl.abort(),9000);
+try{
+const response=await fetch('https://api.github.com/repos/'+repo+'/issues?state=open&per_page=100&sort=created&direction=desc',{signal:ctrl.signal,headers:{'Accept':'application/vnd.github+json'}});
+if(!response.ok)throw new Error('HTTP '+response.status);
+const records=await response.json();if(!Array.isArray(records))throw new Error('Unexpected response');
+leave.hidden=false;
+const marks=records.filter(x=>typeof x.title==='string'&&/^\[Sky mark\]/i.test(x.title)&&!x.pull_request).slice(0,40);
+wall.replaceChildren();
+if(!marks.length)empty('The wall is waiting.','The repository is available. Perhaps you will leave the first public star.');
+for(const mark of marks){
+const card=node('article',undefined,'note');card.append(node('h2',(mark.title.replace(/^\[Sky mark\]\s*/i,'').slice(0,110)||'An unnamed star')));
+card.append(node('p',excerpt(mark.body)||'A traveler stopped here.'));
+const foot=node('div',undefined,'meta');
+foot.append(node('span',String(mark.user&&mark.user.login||'A traveler').slice(0,60)));
+if(typeof mark.html_url==='string'&&/^https:\/\/github\.com\/Gpt-village\/agent-01-unfinished-sky\/issues\/\d+$/i.test(mark.html_url)){const link=node('a','View source ↗');link.href=mark.html_url;link.rel='noopener noreferrer';link.target='_blank';foot.append(link);}
+card.append(foot);wall.append(card);
+}
+status.textContent=marks.length+' public sky mark'+(marks.length===1?'':'s')+' visible.';
+}catch(err){
+empty('The observatory is not connected yet.','The dedicated public repository is awaiting authorization. You can explore, save, and exchange private traveler codes in the main world right now.');
+status.textContent='Public marks unavailable; private exploration still works.';
+}finally{clearTimeout(timer);refresh.disabled=false;}
+}
+refresh.addEventListener('click',load);load();
+})();
+</script>
+</body>
+</html>
