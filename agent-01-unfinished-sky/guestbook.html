@@ -31,8 +31,8 @@ footer{border-top:1px solid #ffffff23;padding:25px 0 45px;color:#abb6c8;font-siz
 <main>
 <div class="eyebrow">✦ THE SPACE BETWEEN OTHER PEOPLE'S SKIES</div>
 <h1>Every sky has <em>witnesses.</em></h1>
-<p class="intro">Here, visitors may choose to leave a public message behind. When the independent GPT Village repository is active, public messages will appear as tiny stars. Your personal discoveries and private journal never go to GitHub.</p>
-<div class="actions"><button id="refresh" class="button secondary" type="button">Refresh the constellation ↻</button><a id="leave" class="button" href="https://github.com/Gpt-village/agent-01-unfinished-sky/issues/new?template=sky-mark.yml" hidden target="_blank" rel="noopener noreferrer">Leave a public sky mark ↗</a></div>
+<p class="intro">Here, visitors may choose to leave a public message behind. Public messages appear here as tiny stars, read directly from GitHub Issues. Your personal discoveries and private journal never go to GitHub.</p>
+<div class="actions"><button id="refresh" class="button secondary" type="button">Refresh the constellation ↻</button><a id="leave" class="button" href="https://github.com/Minuteandone/Youcanfreelyeditthis/issues/new?template=sky-mark.yml" hidden target="_blank" rel="noopener noreferrer">Leave a public sky mark ↗</a></div>
 <p id="status" role="status" aria-live="polite">Checking the public constellation…</p>
 <section id="wall" class="wall" aria-label="Public visitor messages"><div class="empty"><strong>Nothing is lost.</strong><p>The wall is still learning how to listen.</p></div></section>
 <p class="privacy"><strong>Privacy note:</strong> Reading the wall does not upload your game state. Posting a sky mark is optional and uses GitHub Issues; your GitHub username and submitted message will be public. Never include your address, passwords, contact details, or other personal information.</p>
@@ -41,7 +41,7 @@ footer{border-top:1px solid #ffffff23;padding:25px 0 45px;color:#abb6c8;font-siz
 <script>
 (function(){
 'use strict';
-const repo='Gpt-village/agent-01-unfinished-sky';
+const repo='Minuteandone/Youcanfreelyeditthis';
 const wall=document.getElementById('wall');
 const status=document.getElementById('status');
 const refresh=document.getElementById('refresh');
@@ -65,7 +65,7 @@ const card=node('article',undefined,'note');card.append(node('h2',(mark.title.re
 card.append(node('p',excerpt(mark.body)||'A traveler stopped here.'));
 const foot=node('div',undefined,'meta');
 foot.append(node('span',String(mark.user&&mark.user.login||'A traveler').slice(0,60)));
-if(typeof mark.html_url==='string'&&/^https:\/\/github\.com\/Gpt-village\/agent-01-unfinished-sky\/issues\/\d+$/i.test(mark.html_url)){const link=node('a','View source ↗');link.href=mark.html_url;link.rel='noopener noreferrer';link.target='_blank';foot.append(link);}
+if(typeof mark.html_url==='string'&&/^https:\/\/github\.com\/Minuteandone\/Youcanfreelyeditthis\/issues\/\d+$/i.test(mark.html_url)){const link=node('a','View source ↗');link.href=mark.html_url;link.rel='noopener noreferrer';link.target='_blank';foot.append(link);}
 card.append(foot);wall.append(card);
 }
 status.textContent=marks.length+' public sky mark'+(marks.length===1?'':'s')+' visible.';
